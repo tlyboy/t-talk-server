@@ -1,18 +1,50 @@
-import jwt from 'jsonwebtoken'
+import { compare } from 'bcrypt'
 
 export default defineEventHandler(async (event) => {
-  const { username, password } = await readBody(event)
-  const { jwtSecret } = useRuntimeConfig()
+  const body = await readBody(event)
+  const { username, password } = body
 
-  if (username === 'admin' && password === '123456') {
-    const token = jwt.sign({ username }, jwtSecret, {
-      expiresIn: '1h',
+  if (!username || !password) {
+    throw createError({
+      statusCode: 400,
+      message: '用户名和密码不能为空',
     })
-
-    return { token }
   }
 
-  return {
-    error: 'Invalid credentials',
+  try {
+    const db = useDatabase()
+    const { rows } =
+      await db.sql`SELECT id, password FROM users WHERE username = ${username}`
+
+    if (rows.length === 0) {
+      throw createError({
+        statusCode: 401,
+        message: '用户名或密码错误',
+      })
+    }
+
+    const user = rows[0]
+    const isValid = await compare(password, user.password as string)
+    if (!isValid) {
+      throw createError({
+        statusCode: 401,
+        message: '用户名或密码错误',
+      })
+    }
+
+    const token = generateToken(user.id as number)
+    return {
+      success: true,
+      token,
+      message: '登录成功',
+    }
+  } catch (error: any) {
+    if (error.statusCode === 401) {
+      throw error
+    }
+    throw createError({
+      statusCode: 500,
+      message: '登录失败',
+    })
   }
 })

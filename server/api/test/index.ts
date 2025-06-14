@@ -1,20 +1,9 @@
-import jwt from 'jsonwebtoken'
-
 export default defineEventHandler(async (event) => {
-  const authHeader = getHeader(event, 'Authorization')
+  const user = event.context.user
 
-  if (!authHeader) {
-    return { error: 'No token provided' }
-  }
+  const db = useDatabase()
 
-  const token = authHeader.replace('Bearer ', '')
+  const { rows } = await db.sql`SELECT * FROM user`
 
-  const { jwtSecret } = useRuntimeConfig()
-
-  try {
-    const decoded = jwt.verify(token, jwtSecret)
-    return { message: 'Protected data', user: decoded }
-  } catch (err) {
-    return { error: 'Invalid token' }
-  }
+  return { message: 'Secure data', user, rows }
 })
