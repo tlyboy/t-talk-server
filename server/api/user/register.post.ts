@@ -2,9 +2,9 @@ import { hash } from 'bcrypt'
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
-  const { username, password } = body
+  const { nickname, username, password } = body
 
-  if (!username || !password) {
+  if (!nickname || !username || !password) {
     throw createError({
       statusCode: 400,
       message: '用户名和密码不能为空',
@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
   try {
     const hashedPassword = await hash(password, 10)
     const db = useDatabase()
-    await db.sql`INSERT INTO users (username, password) VALUES (${username}, ${hashedPassword})`
+    await db.sql`INSERT INTO users (nickname, username, password) VALUES (${nickname}, ${username}, ${hashedPassword})`
 
     return {
       success: true,

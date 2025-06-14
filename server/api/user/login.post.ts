@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
   try {
     const db = useDatabase()
     const { rows } =
-      await db.sql`SELECT id, password FROM users WHERE username = ${username}`
+      await db.sql`SELECT id, nickname, username, password FROM users WHERE username = ${username}`
 
     if (rows.length === 0) {
       throw createError({
@@ -32,7 +32,7 @@ export default defineEventHandler(async (event) => {
       })
     }
 
-    const token = generateToken(user.id as number)
+    const token = generateToken(user.id as number, user.username as string)
     return {
       success: true,
       token,
