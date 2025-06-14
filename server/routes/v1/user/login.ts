@@ -34,9 +34,10 @@ export default defineEventHandler(async (event) => {
 
     const token = generateToken(user.id as number, user.username as string)
     return {
-      success: true,
       token,
-      message: '登录成功',
+      id: user.id,
+      nickname: user.nickname,
+      username: user.username,
     }
   } catch (error: any) {
     if (error.statusCode === 401) {

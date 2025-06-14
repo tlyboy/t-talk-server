@@ -12,8 +12,19 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    const hashedPassword = await hash(password, 10)
     const db = useDatabase()
+
+    // 检查用户名是否已存在
+    const existingUser =
+      await db.sql`SELECT id FROM users WHERE username = ${username}`
+    if (existingUser.rows.length > 0) {
+      throw createError({
+        statusCode: 400,
+        message: '用户名已存在',
+      })
+    }
+
+    const hashedPassword = await hash(password, 10)
     await db.sql`INSERT INTO users (nickname, username, password) VALUES (${nickname}, ${username}, ${hashedPassword})`
 
     return {
@@ -21,11 +32,8 @@ export default defineEventHandler(async (event) => {
       message: '注册成功',
     }
   } catch (error: any) {
-    if (error.code === 'ER_DUP_ENTRY') {
-      throw createError({
-        statusCode: 400,
-        message: '用户名已存在',
-      })
+    if (error.statusCode === 400) {
+      throw error
     }
     throw createError({
       statusCode: 500,

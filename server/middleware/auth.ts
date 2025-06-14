@@ -1,9 +1,7 @@
-const whiteList = ['/', '/api/user/login', '/api/user/register', '/websocket']
+const whiteList = ['/', '/v1/user/login', '/v1/user/register']
 
 export default defineEventHandler(async (event) => {
-  const { pathname } = new URL(event.node.req.url || '', 'http://localhost')
-
-  if (whiteList.some((path) => pathname === path)) {
+  if (whiteList.some((path) => getRequestURL(event).pathname === path)) {
     return
   }
 
