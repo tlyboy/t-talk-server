@@ -1,6 +1,11 @@
 const whiteList = ['/', '/v1/user/login', '/v1/user/register']
 
 export default defineEventHandler(async (event) => {
+  // 允许 OPTIONS 请求通过
+  if (event.node.req.method === 'OPTIONS') {
+    return
+  }
+
   if (whiteList.some((path) => getRequestURL(event).pathname === path)) {
     return
   }
