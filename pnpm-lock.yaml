@@ -22,14 +22,14 @@ importers:
         version: 3.14.1
     devDependencies:
       '@types/jsonwebtoken':
-        specifier: ^9.0.9
-        version: 9.0.9
+        specifier: ^9.0.10
+        version: 9.0.10
       nitropack:
         specifier: latest
         version: 2.11.12(mysql2@3.14.1)
       prettier:
-        specifier: ^3.5.3
-        version: 3.5.3
+        specifier: ^3.6.2
+        version: 3.6.2
 
 packages:
 
@@ -602,8 +602,8 @@ packages:
   '@types/estree@1.0.8':
     resolution: {integrity: sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==}
 
-  '@types/jsonwebtoken@9.0.9':
-    resolution: {integrity: sha512-uoe+GxEuHbvy12OUQct2X9JenKM3qAscquYymuQN4fMWG9DBQtykrQEFcAbVACF7qaLw9BePSodUL0kquqBJpQ==}
+  '@types/jsonwebtoken@9.0.10':
+    resolution: {integrity: sha512-asx5hIG9Qmf/1oStypjanR7iKTv0gXQ1Ov/jfrX6kS/EO0OFni8orbmGCn0672NHR3kXHwpAwR+B368ZGN/2rA==}
 
   '@types/ms@2.1.0':
     resolution: {integrity: sha512-GsCCIZDE/p3i96vtEqx+7dBUGXrc7zeSK3wwPHIaRThS+9OhWIXRqzs4d6k1SVU8g91DrNRWxWUGhp5KXQb2VA==}
@@ -1918,8 +1918,8 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  prettier@3.5.3:
-    resolution: {integrity: sha512-QQtaxnoDJeAkDvDKWCLiwIXkTgRhwYDEQCghU9Z6q03iyek/rxRh/2lC3HB7P8sWT2xC/y5JDctPLBIGzHKbhw==}
+  prettier@3.6.2:
+    resolution: {integrity: sha512-I7AIg5boAr5R0FFtJ6rCfD+LFsWHp81dolrFD8S79U9tb8Az2nGrJncnMSnys+bpQJfRUzqs9hnA81OAA3hCuQ==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -2980,7 +2980,7 @@ snapshots:
 
   '@types/estree@1.0.8': {}
 
-  '@types/jsonwebtoken@9.0.9':
+  '@types/jsonwebtoken@9.0.10':
     dependencies:
       '@types/ms': 2.1.0
       '@types/node': 24.0.1
@@ -4387,7 +4387,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  prettier@3.5.3: {}
+  prettier@3.6.2: {}
 
   pretty-bytes@6.1.1: {}
 
