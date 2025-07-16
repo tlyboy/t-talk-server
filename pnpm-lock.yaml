@@ -18,15 +18,15 @@ importers:
         specifier: ^9.0.2
         version: 9.0.2
       mysql2:
-        specifier: ^3.14.1
-        version: 3.14.1
+        specifier: ^3.14.2
+        version: 3.14.2
     devDependencies:
       '@types/jsonwebtoken':
         specifier: ^9.0.10
         version: 9.0.10
       nitropack:
         specifier: latest
-        version: 2.11.12(mysql2@3.14.1)
+        version: 2.11.12(mysql2@3.14.2)
       prettier:
         specifier: ^3.6.2
         version: 3.6.2
@@ -1688,8 +1688,8 @@ packages:
   ms@2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
 
-  mysql2@3.14.1:
-    resolution: {integrity: sha512-7ytuPQJjQB8TNAYX/H2yhL+iQOnIBjAMam361R7UAL0lOVXWjtdrmoL9HYKqKoLp/8UUTRcvo1QPvK9KL7wA8w==}
+  mysql2@3.14.2:
+    resolution: {integrity: sha512-YD6mZMeoypmheHT6b2BrVmQFvouEpRICuvPIREulx2OvP1xAxxeqkMQqZSTBefv0PiOBKGYFa2zQtY+gf/4eQw==}
     engines: {node: '>= 8.0'}
 
   named-placeholders@1.1.3:
@@ -3359,9 +3359,9 @@ snapshots:
 
   data-uri-to-buffer@4.0.1: {}
 
-  db0@0.3.2(mysql2@3.14.1):
+  db0@0.3.2(mysql2@3.14.2):
     optionalDependencies:
-      mysql2: 3.14.1
+      mysql2: 3.14.2
 
   debug@4.4.1:
     dependencies:
@@ -4066,7 +4066,7 @@ snapshots:
 
   ms@2.1.3: {}
 
-  mysql2@3.14.1:
+  mysql2@3.14.2:
     dependencies:
       aws-ssl-profiles: 1.1.2
       denque: 2.1.0
@@ -4093,7 +4093,7 @@ snapshots:
       p-wait-for: 5.0.2
       qs: 6.14.0
 
-  nitropack@2.11.12(mysql2@3.14.1):
+  nitropack@2.11.12(mysql2@3.14.2):
     dependencies:
       '@cloudflare/kv-asset-handler': 0.4.0
       '@netlify/functions': 3.1.10(rollup@4.43.0)
@@ -4115,7 +4115,7 @@ snapshots:
       cookie-es: 2.0.0
       croner: 9.0.0
       crossws: 0.3.5
-      db0: 0.3.2(mysql2@3.14.1)
+      db0: 0.3.2(mysql2@3.14.2)
       defu: 6.1.4
       destr: 2.0.5
       dot-prop: 9.0.0
@@ -4161,7 +4161,7 @@ snapshots:
       unenv: 2.0.0-rc.17
       unimport: 5.0.1
       unplugin-utils: 0.2.4
-      unstorage: 1.16.0(db0@0.3.2(mysql2@3.14.1))(ioredis@5.6.1)
+      unstorage: 1.16.0(db0@0.3.2(mysql2@3.14.2))(ioredis@5.6.1)
       untyped: 2.0.0
       unwasm: 0.3.9
       youch: 4.1.0-beta.8
@@ -4838,7 +4838,7 @@ snapshots:
       picomatch: 4.0.2
       webpack-virtual-modules: 0.6.2
 
-  unstorage@1.16.0(db0@0.3.2(mysql2@3.14.1))(ioredis@5.6.1):
+  unstorage@1.16.0(db0@0.3.2(mysql2@3.14.2))(ioredis@5.6.1):
     dependencies:
       anymatch: 3.1.3
       chokidar: 4.0.3
@@ -4849,7 +4849,7 @@ snapshots:
       ofetch: 1.4.1
       ufo: 1.6.1
     optionalDependencies:
-      db0: 0.3.2(mysql2@3.14.1)
+      db0: 0.3.2(mysql2@3.14.2)
       ioredis: 5.6.1
 
   untun@0.1.3:
