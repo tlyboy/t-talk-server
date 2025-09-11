@@ -18,15 +18,15 @@ importers:
         specifier: ^9.0.2
         version: 9.0.2
       mysql2:
-        specifier: ^3.14.2
-        version: 3.14.2
+        specifier: ^3.14.5
+        version: 3.14.5
     devDependencies:
       '@types/jsonwebtoken':
         specifier: ^9.0.10
         version: 9.0.10
       nitropack:
         specifier: latest
-        version: 2.11.12(mysql2@3.14.2)
+        version: 2.11.12(mysql2@3.14.5)
       prettier:
         specifier: ^3.6.2
         version: 3.6.2
@@ -1354,8 +1354,8 @@ packages:
     resolution: {integrity: sha512-AXcZb6vzzrFAUE61HnN4mpLqd/cSIwNQjtNWR0euPm6y0iqx3G4gOXaIDdtdDwZmhwe82LA6+zinmW4UBWVePQ==}
     engines: {node: '>=16.17.0'}
 
-  iconv-lite@0.6.3:
-    resolution: {integrity: sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==}
+  iconv-lite@0.7.0:
+    resolution: {integrity: sha512-cf6L2Ds3h57VVmkZe+Pn+5APsT7FpqJtEhhieDCvrE2MK5Qk9MyffgQyuxQTm6BChfeZNtcOLHp9IcWRVcIcBQ==}
     engines: {node: '>=0.10.0'}
 
   ieee754@1.2.1:
@@ -1688,8 +1688,8 @@ packages:
   ms@2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
 
-  mysql2@3.14.2:
-    resolution: {integrity: sha512-YD6mZMeoypmheHT6b2BrVmQFvouEpRICuvPIREulx2OvP1xAxxeqkMQqZSTBefv0PiOBKGYFa2zQtY+gf/4eQw==}
+  mysql2@3.14.5:
+    resolution: {integrity: sha512-40hDf8LPUsuuJ2hFq+UgOuPwt2IFLIRDvMv6ez9hKbXeYuZPxDDwiJW7KdknvOsQqKznaKczOT1kELgFkhDvFg==}
     engines: {node: '>= 8.0'}
 
   named-placeholders@1.1.3:
@@ -3359,9 +3359,9 @@ snapshots:
 
   data-uri-to-buffer@4.0.1: {}
 
-  db0@0.3.2(mysql2@3.14.2):
+  db0@0.3.2(mysql2@3.14.5):
     optionalDependencies:
-      mysql2: 3.14.2
+      mysql2: 3.14.5
 
   debug@4.4.1:
     dependencies:
@@ -3767,7 +3767,7 @@ snapshots:
 
   human-signals@5.0.0: {}
 
-  iconv-lite@0.6.3:
+  iconv-lite@0.7.0:
     dependencies:
       safer-buffer: 2.1.2
 
@@ -4066,12 +4066,12 @@ snapshots:
 
   ms@2.1.3: {}
 
-  mysql2@3.14.2:
+  mysql2@3.14.5:
     dependencies:
       aws-ssl-profiles: 1.1.2
       denque: 2.1.0
       generate-function: 2.3.1
-      iconv-lite: 0.6.3
+      iconv-lite: 0.7.0
       long: 5.3.2
       lru.min: 1.1.2
       named-placeholders: 1.1.3
@@ -4093,7 +4093,7 @@ snapshots:
       p-wait-for: 5.0.2
       qs: 6.14.0
 
-  nitropack@2.11.12(mysql2@3.14.2):
+  nitropack@2.11.12(mysql2@3.14.5):
     dependencies:
       '@cloudflare/kv-asset-handler': 0.4.0
       '@netlify/functions': 3.1.10(rollup@4.43.0)
@@ -4115,7 +4115,7 @@ snapshots:
       cookie-es: 2.0.0
       croner: 9.0.0
       crossws: 0.3.5
-      db0: 0.3.2(mysql2@3.14.2)
+      db0: 0.3.2(mysql2@3.14.5)
       defu: 6.1.4
       destr: 2.0.5
       dot-prop: 9.0.0
@@ -4161,7 +4161,7 @@ snapshots:
       unenv: 2.0.0-rc.17
       unimport: 5.0.1
       unplugin-utils: 0.2.4
-      unstorage: 1.16.0(db0@0.3.2(mysql2@3.14.2))(ioredis@5.6.1)
+      unstorage: 1.16.0(db0@0.3.2(mysql2@3.14.5))(ioredis@5.6.1)
       untyped: 2.0.0
       unwasm: 0.3.9
       youch: 4.1.0-beta.8
@@ -4838,7 +4838,7 @@ snapshots:
       picomatch: 4.0.2
       webpack-virtual-modules: 0.6.2
 
-  unstorage@1.16.0(db0@0.3.2(mysql2@3.14.2))(ioredis@5.6.1):
+  unstorage@1.16.0(db0@0.3.2(mysql2@3.14.5))(ioredis@5.6.1):
     dependencies:
       anymatch: 3.1.3
       chokidar: 4.0.3
@@ -4849,7 +4849,7 @@ snapshots:
       ofetch: 1.4.1
       ufo: 1.6.1
     optionalDependencies:
-      db0: 0.3.2(mysql2@3.14.2)
+      db0: 0.3.2(mysql2@3.14.5)
       ioredis: 5.6.1
 
   untun@0.1.3:
