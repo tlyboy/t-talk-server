@@ -33,6 +33,7 @@ export default defineEventHandler(async (event) => {
     }
 
     const token = generateToken(user.id as number)
+
     return {
       token,
       id: user.id,
