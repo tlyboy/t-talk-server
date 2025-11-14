@@ -17,8 +17,8 @@
     "nitropack": "latest",
     "prettier": "^3.6.2"
   },
-  "packageManager": "pnpm@10.20.0",
+  "packageManager": "pnpm@10.22.0",
   "engines": {
-    "node": "22.x"
+    "node": "24.x"
   }
 }
