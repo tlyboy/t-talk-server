@@ -35,6 +35,7 @@ export default defineEventHandler(async (event) => {
     if (error.statusCode === 400) {
       throw error
     }
+    console.error('注册失败:', error)
     throw createError({
       statusCode: 500,
       message: '注册失败',
