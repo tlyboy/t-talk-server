@@ -1,6 +1,13 @@
 services:
   t-talk-server:
-    build: .
+    build:
+      context: .
+      args:
+        - MYSQL_USER=${MYSQL_USER}
+        - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+        - MYSQL_DATABASE=${MYSQL_DATABASE}
+        - MYSQL_HOST=${MYSQL_HOST}
+        - MYSQL_PORT=${MYSQL_PORT}
     restart: unless-stopped
     ports:
       - 3000:3000
@@ -8,8 +15,3 @@ services:
       - 'host.docker.internal:host-gateway'
     environment:
       - NITRO_JWT_SECRET=${NITRO_JWT_SECRET}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_HOST=${MYSQL_HOST}
-      - MYSQL_PORT=${MYSQL_PORT}
