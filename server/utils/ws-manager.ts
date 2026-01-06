@@ -43,7 +43,9 @@ class WSManager {
     const peers = this.userConnections.get(userId)
     if (peers) {
       peers.delete(peer)
-      console.log(`[ws-manager] 用户 ${userId} 断开连接，剩余连接数: ${peers.size}`)
+      console.log(
+        `[ws-manager] 用户 ${userId} 断开连接，剩余连接数: ${peers.size}`,
+      )
 
       if (peers.size === 0) {
         this.userConnections.delete(userId)
@@ -86,7 +88,11 @@ class WSManager {
   /**
    * 广播消息给多个用户
    */
-  broadcastToUsers(userIds: number[], message: WSMessage, excludeUserId?: number) {
+  broadcastToUsers(
+    userIds: number[],
+    message: WSMessage,
+    excludeUserId?: number,
+  ) {
     const msgStr = JSON.stringify({
       ...message,
       timestamp: message.timestamp || Date.now(),

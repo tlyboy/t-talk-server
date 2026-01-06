@@ -1,5 +1,3 @@
-import { wsManager } from '../../../utils/ws-manager'
-
 export default defineEventHandler(async (event) => {
   const userId = event.context.auth.userId
   const friendId = Number(event.context.params?.id)

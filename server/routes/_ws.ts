@@ -1,5 +1,3 @@
-import { wsManager } from '../utils/ws-manager'
-
 export default defineWebSocketHandler({
   open(peer) {
     console.log('[ws] 新连接')
@@ -51,7 +49,9 @@ export default defineWebSocketHandler({
           const friendIds = (friends as any[]).map((f) => f.friendId)
 
           // 获取在线的好友
-          const onlineFriendIds = friendIds.filter((id) => wsManager.isUserOnline(id))
+          const onlineFriendIds = friendIds.filter((id) =>
+            wsManager.isUserOnline(id),
+          )
 
           // 发送认证成功，包含在线好友列表
           peer.send(

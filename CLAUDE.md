@@ -28,6 +28,7 @@ pnpm prepare
 ## 环境配置
 
 复制 `.env.example` 为 `.env` 并配置以下环境变量：
+
 - `NITRO_JWT_SECRET` - JWT 密钥
 - `MYSQL_USER/PASSWORD/DATABASE/HOST/PORT` - MySQL 数据库连接
 

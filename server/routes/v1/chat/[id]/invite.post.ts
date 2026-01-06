@@ -1,5 +1,3 @@
-import { wsManager } from '../../../../utils/ws-manager'
-
 export default defineEventHandler(async (event) => {
   const userId = event.context.auth.userId
   const chatId = Number(event.context.params?.id)
@@ -91,14 +89,18 @@ export default defineEventHandler(async (event) => {
   const { rows: existingMembers } = await db.sql`
     SELECT userId FROM chat_members WHERE chatId = ${chatId}
   `
-  const existingMemberIds = new Set((existingMembers as any[]).map((m) => m.userId))
+  const existingMemberIds = new Set(
+    (existingMembers as any[]).map((m) => m.userId),
+  )
 
   // 获取已有待处理邀请的用户
   const { rows: pendingInvites } = await db.sql`
     SELECT inviteeId FROM chat_invites
     WHERE chatId = ${chatId} AND status = 'pending'
   `
-  const pendingInviteIds = new Set((pendingInvites as any[]).map((i) => i.inviteeId))
+  const pendingInviteIds = new Set(
+    (pendingInvites as any[]).map((i) => i.inviteeId),
+  )
 
   // 获取邀请人信息
   const { rows: inviterRows } = await db.sql`
@@ -183,7 +185,10 @@ export default defineEventHandler(async (event) => {
     invitedUsers,
     skippedCount: skippedUsers.length,
     skippedUsers,
-    message: invitedUsers.length > 0 ? '邀请已发送，等待群主审核' : '没有成功发送任何邀请',
+    message:
+      invitedUsers.length > 0
+        ? '邀请已发送，等待群主审核'
+        : '没有成功发送任何邀请',
     // 返回是否发生了私聊转群聊
     convertedToGroup: chat.type === 'group' && chatRows[0].type === 'private',
   }

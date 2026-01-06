@@ -35,22 +35,37 @@ export default defineEventHandler(async (event) => {
     `
 
     // 构建好友关系映射
-    const relationMap = new Map<number, { isFriend: boolean; isPending: boolean; pendingType: string | null }>()
+    const relationMap = new Map<
+      number,
+      { isFriend: boolean; isPending: boolean; pendingType: string | null }
+    >()
 
     for (const f of friendships as any[]) {
       const otherId = f.senderId === userId ? f.friendId : f.senderId
 
       if (f.status === 'accepted') {
-        relationMap.set(otherId, { isFriend: true, isPending: false, pendingType: null })
+        relationMap.set(otherId, {
+          isFriend: true,
+          isPending: false,
+          pendingType: null,
+        })
       } else if (f.status === 'pending') {
         const pendingType = f.senderId === userId ? 'sent' : 'received'
-        relationMap.set(otherId, { isFriend: false, isPending: true, pendingType })
+        relationMap.set(otherId, {
+          isFriend: false,
+          isPending: true,
+          pendingType,
+        })
       }
     }
 
     // 返回带关系状态的用户列表
     return users.map((user: any) => {
-      const relation = relationMap.get(user.id) || { isFriend: false, isPending: false, pendingType: null }
+      const relation = relationMap.get(user.id) || {
+        isFriend: false,
+        isPending: false,
+        pendingType: null,
+      }
       return {
         ...user,
         ...relation,

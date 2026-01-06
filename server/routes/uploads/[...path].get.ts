@@ -11,7 +11,8 @@ const mimeTypes: Record<string, string> = {
   '.webp': 'image/webp',
   '.pdf': 'application/pdf',
   '.doc': 'application/msword',
-  '.docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  '.docx':
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
   '.xls': 'application/vnd.ms-excel',
   '.xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   '.txt': 'text/plain',

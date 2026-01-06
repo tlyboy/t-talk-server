@@ -87,6 +87,7 @@ export default defineEventHandler(async (event) => {
     addedMembers,
     skippedCount: skippedMembers.length,
     skippedMembers,
-    message: skippedMembers.length > 0 ? '部分用户不是您的好友，已跳过' : undefined,
+    message:
+      skippedMembers.length > 0 ? '部分用户不是您的好友，已跳过' : undefined,
   }
 })
