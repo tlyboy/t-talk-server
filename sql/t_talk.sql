@@ -75,11 +75,17 @@ CREATE TABLE `messages` (
   `chatId` int DEFAULT NULL,
   `role` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `encrypted` tinyint(1) DEFAULT 0 COMMENT '是否加密: 0=明文, 1=加密',
   `createdAt` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE,
   KEY `idx_messages_chatId` (`chatId`),
   KEY `idx_messages_userId` (`userId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
+
+-- ----------------------------
+-- 消息加密迁移 SQL (在现有数据库上执行)
+-- ----------------------------
+-- ALTER TABLE messages ADD COLUMN encrypted tinyint(1) DEFAULT 0 COMMENT '是否加密: 0=明文, 1=加密';
 
 -- ----------------------------
 -- Table structure for users

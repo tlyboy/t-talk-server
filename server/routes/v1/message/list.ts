@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
 
   const db = useDatabase()
 
-  // 获取消息列表，包含发送者信息
+  // 获取消息列表，包含发送者信息和加密状态
   const { rows } = await db.sql`
     SELECT
       m.id,
@@ -24,6 +24,7 @@ export default defineEventHandler(async (event) => {
       m.userId,
       m.content,
       m.role,
+      m.encrypted,
       m.createdAt,
       u.username,
       u.nickname,
@@ -36,5 +37,22 @@ export default defineEventHandler(async (event) => {
     OFFSET ${offset}
   `
 
-  return rows
+  // 解密加密的消息
+  const decryptedRows = await Promise.all(
+    (rows as any[]).map(async (msg) => {
+      if (msg.encrypted) {
+        try {
+          msg.content = await decryptMessage(msg.content, msg.chatId)
+        } catch (error) {
+          console.error(`解密消息 ${msg.id} 失败:`, error)
+          msg.content = '[消息解密失败]'
+        }
+      }
+      // 不返回 encrypted 字段给客户端
+      const { encrypted, ...rest } = msg
+      return rest
+    }),
+  )
+
+  return decryptedRows
 })

@@ -34,10 +34,13 @@ export default defineEventHandler(async (event) => {
       })
     }
 
-    // 插入消息
+    // 加密消息内容
+    const encryptedContent = await encryptMessage(content, chatId)
+
+    // 插入加密后的消息
     const result = await db.sql`
-      INSERT INTO messages (chatId, userId, content, role)
-      VALUES (${chatId}, ${userId}, ${content}, 'user')
+      INSERT INTO messages (chatId, userId, content, role, encrypted)
+      VALUES (${chatId}, ${userId}, ${encryptedContent}, 'user', 1)
     `
 
     // MySQL 使用 insertId，SQLite 使用 lastInsertRowid
@@ -46,14 +49,15 @@ export default defineEventHandler(async (event) => {
     // 获取完整的消息信息（包含发送者信息）
     const { rows } = await db.sql`
       SELECT
-        m.id, m.chatId, m.userId, m.content, m.role, m.createdAt,
+        m.id, m.chatId, m.userId, m.role, m.createdAt,
         u.username, u.nickname, u.avatar
       FROM messages m
       JOIN users u ON m.userId = u.id
       WHERE m.id = ${messageId}
     `
 
-    const message = rows[0]
+    // 返回时使用原始明文内容（TLS 保护传输，数据库存储的是密文）
+    const message = { ...rows[0], content }
 
     // 更新聊天的最后消息ID
     await db.sql`

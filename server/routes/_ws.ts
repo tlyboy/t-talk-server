@@ -127,25 +127,29 @@ export default defineWebSocketHandler({
             return
           }
 
+          // 加密消息内容后存储
+          const encryptedContent = await encryptMessage(content, chatId)
+
           const result = await db.sql`
-            INSERT INTO messages (chatId, userId, content, role)
-            VALUES (${chatId}, ${userId}, ${content}, 'user')
+            INSERT INTO messages (chatId, userId, content, role, encrypted)
+            VALUES (${chatId}, ${userId}, ${encryptedContent}, 'user', 1)
           `
 
           // MySQL 使用 insertId，SQLite 使用 lastInsertRowid
           const messageId = (result as any).insertId || result.lastInsertRowid
 
-          // 获取完整消息信息
+          // 获取完整消息信息（不包含加密的 content，使用原始明文）
           const { rows } = await db.sql`
             SELECT
-              m.id, m.chatId, m.userId, m.content, m.role, m.createdAt,
+              m.id, m.chatId, m.userId, m.role, m.createdAt,
               u.username, u.nickname
             FROM messages m
             JOIN users u ON m.userId = u.id
             WHERE m.id = ${messageId}
           `
 
-          const newMessage = rows[0]
+          // 广播时使用原始明文内容（TLS 保护传输）
+          const newMessage = { ...rows[0], content }
 
           // 更新聊天的最后消息ID
           await db.sql`
