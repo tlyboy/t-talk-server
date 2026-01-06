@@ -49,7 +49,7 @@ export default defineEventHandler(async (event) => {
     const { rows } = await db.sql`
       SELECT
         m.id, m.chatId, m.userId, m.content, m.role, m.createdAt,
-        u.username, u.nickname
+        u.username, u.nickname, u.avatar
       FROM messages m
       JOIN users u ON m.userId = u.id
       WHERE m.id = ${messageId}

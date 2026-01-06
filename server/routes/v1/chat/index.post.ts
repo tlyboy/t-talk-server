@@ -45,10 +45,14 @@ export default defineEventHandler(async (event) => {
       `
 
       if (existingChats.length > 0) {
-        // 返回已存在的私聊
+        // 返回已存在的私聊（包含对方头像和昵称）
         const { rows } = await db.sql`
-          SELECT id, userId, participantId, title, type, createdAt
-          FROM chats WHERE id = ${(existingChats[0] as any).id}
+          SELECT c.id, c.userId, c.participantId, c.title, c.type, c.createdAt,
+            u.avatar AS displayAvatar,
+            COALESCE(u.nickname, u.username) AS displayName
+          FROM chats c
+          LEFT JOIN users u ON u.id = ${participantId}
+          WHERE c.id = ${(existingChats[0] as any).id}
         `
         return rows[0]
       }
@@ -69,9 +73,14 @@ export default defineEventHandler(async (event) => {
         INSERT INTO chat_members (chatId, userId, role) VALUES (${chatId}, ${participantId}, 'member')
       `
 
+      // 返回新创建的私聊（包含对方头像和昵称）
       const { rows } = await db.sql`
-        SELECT id, userId, participantId, title, type, createdAt
-        FROM chats WHERE id = ${chatId}
+        SELECT c.id, c.userId, c.participantId, c.title, c.type, c.createdAt,
+          u.avatar AS displayAvatar,
+          COALESCE(u.nickname, u.username) AS displayName
+        FROM chats c
+        LEFT JOIN users u ON u.id = ${participantId}
+        WHERE c.id = ${chatId}
       `
 
       return rows[0]

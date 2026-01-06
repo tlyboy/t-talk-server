@@ -26,7 +26,8 @@ export default defineEventHandler(async (event) => {
       m.role,
       m.createdAt,
       u.username,
-      u.nickname
+      u.nickname,
+      u.avatar
     FROM messages m
     JOIN users u ON m.userId = u.id
     WHERE m.chatId = ${chatId}

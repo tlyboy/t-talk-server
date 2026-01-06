@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
   try {
     const db = useDatabase()
     const { rows } =
-      await db.sql`SELECT id, nickname, username, password FROM users WHERE username = ${username}`
+      await db.sql`SELECT id, nickname, username, password, avatar FROM users WHERE username = ${username}`
 
     if (rows.length === 0) {
       throw createError({
@@ -39,11 +39,13 @@ export default defineEventHandler(async (event) => {
       id: user.id,
       nickname: user.nickname,
       username: user.username,
+      avatar: user.avatar,
     }
   } catch (error: any) {
     if (error.statusCode === 401) {
       throw error
     }
+    console.error('登录失败:', error)
     throw createError({
       statusCode: 500,
       message: '登录失败',

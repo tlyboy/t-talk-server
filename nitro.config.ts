@@ -9,6 +9,7 @@ export default defineNitroConfig({
     database: true,
     websocket: true,
   },
+  serveStatic: true,
   database: {
     default: {
       connector: 'mysql2',

@@ -11,6 +11,7 @@ export default defineEventHandler(async (event) => {
         u.id,
         u.username,
         u.nickname,
+        u.avatar,
         f.id as friendshipId,
         f.createdAt
       FROM friends f

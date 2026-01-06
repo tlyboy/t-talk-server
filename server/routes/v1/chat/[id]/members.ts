@@ -32,6 +32,7 @@ export default defineEventHandler(async (event) => {
       cm.joinedAt,
       u.username,
       u.nickname,
+      u.avatar,
       CASE WHEN f.id IS NOT NULL THEN TRUE ELSE FALSE END AS isFriend
     FROM chat_members cm
     JOIN users u ON cm.userId = u.id

@@ -42,16 +42,7 @@ export default defineWebSocketHandler({
           // 注册连接
           wsManager.addConnection(decoded.userId, peer)
 
-          // 发送认证成功
-          peer.send(
-            JSON.stringify({
-              type: 'auth:success',
-              payload: { userId: decoded.userId },
-              timestamp: Date.now(),
-            }),
-          )
-
-          // 获取好友列表，只通知好友用户上线
+          // 获取好友列表
           const db = useDatabase()
           const { rows: friends } = await db.sql`
             SELECT friendId FROM friends
@@ -59,6 +50,22 @@ export default defineWebSocketHandler({
           `
           const friendIds = (friends as any[]).map((f) => f.friendId)
 
+          // 获取在线的好友
+          const onlineFriendIds = friendIds.filter((id) => wsManager.isUserOnline(id))
+
+          // 发送认证成功，包含在线好友列表
+          peer.send(
+            JSON.stringify({
+              type: 'auth:success',
+              payload: {
+                userId: decoded.userId,
+                onlineFriends: onlineFriendIds,
+              },
+              timestamp: Date.now(),
+            }),
+          )
+
+          // 通知好友用户上线
           if (friendIds.length > 0) {
             wsManager.broadcastToUsers(friendIds, {
               type: 'friend:online',

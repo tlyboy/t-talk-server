@@ -6,7 +6,14 @@ export default defineEventHandler(async (event) => {
     return
   }
 
-  if (whiteList.some((path) => getRequestURL(event).pathname === path)) {
+  const pathname = getRequestURL(event).pathname
+
+  // 静态文件路径无需认证
+  if (pathname.startsWith('/uploads/')) {
+    return
+  }
+
+  if (whiteList.some((path) => pathname === path)) {
     return
   }
 
