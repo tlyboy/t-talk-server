@@ -6,5 +6,6 @@ dist
 .output
 .env
 public/uploads
+data/
 .mcp.json
 server.log
