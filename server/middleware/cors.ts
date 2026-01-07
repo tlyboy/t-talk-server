@@ -1,5 +1,7 @@
 export default defineEventHandler((event) => {
-  setHeader(event, 'Access-Control-Allow-Origin', '*')
+  const origin = getHeader(event, 'Origin') || '*'
+
+  setHeader(event, 'Access-Control-Allow-Origin', origin)
   setHeader(
     event,
     'Access-Control-Allow-Methods',
