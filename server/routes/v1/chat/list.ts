@@ -1,3 +1,5 @@
+import { decryptMessage } from '~/utils/crypto'
+
 export default defineEventHandler(async (event) => {
   const userId = event.context.auth.userId
 
@@ -17,6 +19,7 @@ export default defineEventHandler(async (event) => {
       c.updatedAt,
       cm.role AS myRole,
       m.content AS lastMessage,
+      m.encrypted AS lastMessageEncrypted,
       m.createdAt AS lastMessageAt,
       mu.nickname AS lastMessageUser,
       CASE
@@ -41,5 +44,22 @@ export default defineEventHandler(async (event) => {
     ORDER BY COALESCE(m.createdAt, c.createdAt) DESC
   `
 
-  return rows
+  // 解密加密的最后消息
+  const decryptedRows = await Promise.all(
+    (rows as any[]).map(async (chat) => {
+      if (chat.lastMessage && chat.lastMessageEncrypted) {
+        try {
+          chat.lastMessage = await decryptMessage(chat.lastMessage, chat.id)
+        } catch (error) {
+          console.error(`解密聊天 ${chat.id} 最后消息失败:`, error)
+          chat.lastMessage = '[消息解密失败]'
+        }
+      }
+      // 不返回 lastMessageEncrypted 字段
+      const { lastMessageEncrypted, ...rest } = chat
+      return rest
+    })
+  )
+
+  return decryptedRows
 })
