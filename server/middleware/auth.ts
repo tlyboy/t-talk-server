@@ -24,6 +24,11 @@ export default defineEventHandler(async (event) => {
     return
   }
 
+  // 文件更新路径无需认证 (PATCH /v1/file/:id)
+  if (/^\/v1\/file\/\d+$/.test(pathname)) {
+    return
+  }
+
   // 文件存储路径无需认证
   if (pathname.startsWith('/files/')) {
     return

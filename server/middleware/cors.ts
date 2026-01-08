@@ -3,7 +3,7 @@ export default defineEventHandler((event) => {
   setHeader(
     event,
     'Access-Control-Allow-Methods',
-    'GET,POST,PUT,DELETE,OPTIONS',
+    'GET,POST,PUT,PATCH,DELETE,OPTIONS',
   )
   setHeader(
     event,
