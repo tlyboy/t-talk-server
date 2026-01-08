@@ -1,3 +1,3 @@
-# t-talk-server
+# t-server
 
-🌐 T-Talk server
+🌐 T-server

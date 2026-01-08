@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 项目概述
 
-T-Talk Server 是一个基于 [Nitro](https://nitro.unjs.io/) 框架构建的即时通讯后端服务，使用 MySQL 作为数据库，支持 WebSocket 实时通信。
+t Server 是一个基于 [Nitro](https://nitro.unjs.io/) 框架构建的即时通讯后端服务，使用 MySQL 作为数据库，支持 WebSocket 实时通信。
 
 ## 常用命令
 

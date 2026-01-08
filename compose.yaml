@@ -1,5 +1,5 @@
 services:
-  t-talk-server:
+  t-server:
     build:
       context: .
       args:
