@@ -2,6 +2,9 @@ export default defineWebSocketHandler({
   open(peer) {
     console.log('[ws] 新连接')
 
+    // 添加到全局 peer 池（支持匿名用户）
+    wsManager.addPeer(peer)
+
     // 从 URL 获取 token 进行认证
     // Nitro WebSocket 目前没有直接获取 URL 的方式，所以先接受连接
     // 认证将在第一条消息中处理
@@ -80,6 +83,17 @@ export default defineWebSocketHandler({
           peer.send(
             JSON.stringify({
               type: 'pong',
+              timestamp: Date.now(),
+            }),
+          )
+          break
+        }
+
+        case 'file:subscribe': {
+          // 匿名订阅文件更新（无需认证）
+          peer.send(
+            JSON.stringify({
+              type: 'file:subscribed',
               timestamp: Date.now(),
             }),
           )
@@ -196,6 +210,9 @@ export default defineWebSocketHandler({
   },
 
   async close(peer, event) {
+    // 从全局 peer 池移除
+    wsManager.removePeer(peer)
+
     const userId = wsManager.removeConnection(peer)
     console.log('[ws] 连接关闭, userId:', userId)
 
@@ -219,6 +236,7 @@ export default defineWebSocketHandler({
 
   error(peer, error) {
     console.error('[ws] 错误:', error)
+    wsManager.removePeer(peer)
     wsManager.removeConnection(peer)
   },
 })

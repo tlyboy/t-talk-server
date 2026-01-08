@@ -13,6 +13,25 @@ class WSManager {
   // peer -> userId
   private peerUserMap = new Map<Peer, number>()
 
+  // 所有连接的 peer（包括匿名用户）
+  private allPeers = new Set<Peer>()
+
+  /**
+   * 添加 peer 到全局连接池（包括匿名用户）
+   */
+  addPeer(peer: Peer) {
+    this.allPeers.add(peer)
+    console.log(`[ws-manager] 新连接，当前总连接数: ${this.allPeers.size}`)
+  }
+
+  /**
+   * 从全局连接池移除 peer
+   */
+  removePeer(peer: Peer) {
+    this.allPeers.delete(peer)
+    console.log(`[ws-manager] 连接断开，剩余连接数: ${this.allPeers.size}`)
+  }
+
   /**
    * 添加用户连接
    */
@@ -142,6 +161,25 @@ class WSManager {
    */
   getOnlineCount(): number {
     return this.userConnections.size
+  }
+
+  /**
+   * 广播消息给所有连接的 peer（包括匿名用户）
+   */
+  broadcastToAllPeers(message: WSMessage, excludePeer?: Peer) {
+    const msgStr = JSON.stringify({
+      ...message,
+      timestamp: message.timestamp || Date.now(),
+    })
+
+    for (const peer of this.allPeers) {
+      if (peer === excludePeer) continue
+      try {
+        peer.send(msgStr)
+      } catch (error) {
+        console.error('[ws-manager] 广播消息失败:', error)
+      }
+    }
   }
 }
 

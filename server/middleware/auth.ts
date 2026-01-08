@@ -1,4 +1,10 @@
-const whiteList = ['/', '/v1/user/login', '/v1/user/register']
+const whiteList = [
+  '/',
+  '/v1/user/login',
+  '/v1/user/register',
+  '/v1/file',
+  '/v1/file/list',
+]
 
 export default defineEventHandler(async (event) => {
   // 允许 OPTIONS 请求通过
@@ -10,6 +16,16 @@ export default defineEventHandler(async (event) => {
 
   // 静态文件路径无需认证
   if (pathname.startsWith('/uploads/')) {
+    return
+  }
+
+  // 文件下载路径无需认证
+  if (pathname.startsWith('/v1/file/download/')) {
+    return
+  }
+
+  // 文件存储路径无需认证
+  if (pathname.startsWith('/files/')) {
     return
   }
 
