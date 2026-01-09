@@ -1,21 +1,38 @@
 /*
  Navicat Premium Dump SQL
 
- Source Server         : localhost_3306
+ Source Server         : 47.99.66.165_3306
  Source Server Type    : MySQL
  Source Server Version : 80100 (8.1.0)
- Source Host           : localhost:3306
+ Source Host           : 47.99.66.165:3306
  Source Schema         : t_talk
 
  Target Server Type    : MySQL
  Target Server Version : 80100 (8.1.0)
  File Encoding         : 65001
 
- Date: 02/01/2026 13:47:05
+ Date: 09/01/2026 09:59:55
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for chat_invites
+-- ----------------------------
+DROP TABLE IF EXISTS `chat_invites`;
+CREATE TABLE `chat_invites` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `chatId` int NOT NULL,
+  `inviterId` int NOT NULL,
+  `inviteeId` int NOT NULL,
+  `status` enum('pending','accepted','rejected') COLLATE utf8mb4_general_ci DEFAULT 'pending',
+  `createdAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `processedAt` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_chat_invites_chatId` (`chatId`),
+  KEY `idx_chat_invites_inviteeId` (`inviteeId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for chat_members
@@ -31,7 +48,7 @@ CREATE TABLE `chat_members` (
   UNIQUE KEY `uk_chat_user` (`chatId`,`userId`),
   KEY `idx_chat_members_chatId` (`chatId`),
   KEY `idx_chat_members_userId` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for chats
@@ -45,10 +62,28 @@ CREATE TABLE `chats` (
   `createdAt` datetime DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `participantId` int DEFAULT NULL,
-  `type` enum('private','group') COLLATE utf8mb4_general_ci DEFAULT 'private',
+  `type` enum('private','group') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'private',
+  `avatar` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   KEY `idx_chats_userId` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
+
+-- ----------------------------
+-- Table structure for files
+-- ----------------------------
+DROP TABLE IF EXISTS `files`;
+CREATE TABLE `files` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `filename` varchar(255) NOT NULL COMMENT '存储的文件名 (UUID)',
+  `originalName` varchar(255) NOT NULL COMMENT '原始文件名',
+  `mimeType` varchar(100) NOT NULL DEFAULT 'application/octet-stream',
+  `size` int NOT NULL COMMENT '文件大小 (字节)',
+  `x` float NOT NULL COMMENT 'X 位置 (百分比 0-100)',
+  `y` float NOT NULL COMMENT 'Y 位置 (百分比 0-100)',
+  `createdAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_created` (`createdAt`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for friends
@@ -58,12 +93,12 @@ CREATE TABLE `friends` (
   `id` int NOT NULL AUTO_INCREMENT,
   `userId` int DEFAULT NULL,
   `friendId` int DEFAULT NULL,
-  `status` enum('pending','accepted','rejected','blocked') COLLATE utf8mb4_general_ci DEFAULT 'pending',
+  `status` enum('pending','accepted','rejected','blocked') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'pending',
   `createdAt` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE,
   KEY `idx_friends_userId` (`userId`),
   KEY `idx_friends_friendId` (`friendId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Table structure for messages
@@ -75,17 +110,12 @@ CREATE TABLE `messages` (
   `chatId` int DEFAULT NULL,
   `role` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
-  `encrypted` tinyint(1) DEFAULT 0 COMMENT '是否加密: 0=明文, 1=加密',
   `createdAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `encrypted` tinyint(1) DEFAULT '0' COMMENT '是否加密: 0=明文, 1=加密',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `idx_messages_chatId` (`chatId`),
   KEY `idx_messages_userId` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
--- ----------------------------
--- 消息加密迁移 SQL (在现有数据库上执行)
--- ----------------------------
--- ALTER TABLE messages ADD COLUMN encrypted tinyint(1) DEFAULT 0 COMMENT '是否加密: 0=明文, 1=加密';
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Table structure for users
@@ -97,7 +127,8 @@ CREATE TABLE `users` (
   `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `createdAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `avatar` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
 SET FOREIGN_KEY_CHECKS = 1;
