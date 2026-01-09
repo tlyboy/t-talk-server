@@ -218,18 +218,22 @@ export default defineWebSocketHandler({
 
     // 如果用户完全离线，只通知好友
     if (userId && !wsManager.isUserOnline(userId)) {
-      const db = useDatabase()
-      const { rows: friends } = await db.sql`
-        SELECT friendId FROM friends
-        WHERE userId = ${userId} AND status = 'accepted'
-      `
-      const friendIds = (friends as any[]).map((f: any) => f.friendId)
+      try {
+        const db = useDatabase()
+        const { rows: friends } = await db.sql`
+          SELECT friendId FROM friends
+          WHERE userId = ${userId} AND status = 'accepted'
+        `
+        const friendIds = (friends as any[]).map((f: any) => f.friendId)
 
-      if (friendIds.length > 0) {
-        wsManager.broadcastToUsers(friendIds, {
-          type: 'friend:offline',
-          payload: { friendId: userId },
-        })
+        if (friendIds.length > 0) {
+          wsManager.broadcastToUsers(friendIds, {
+            type: 'friend:offline',
+            payload: { friendId: userId },
+          })
+        }
+      } catch (error) {
+        console.error('[ws] close 事件数据库查询失败:', error)
       }
     }
   },

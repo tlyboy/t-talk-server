@@ -20,6 +20,12 @@ export default defineNitroConfig({
         database: process.env.MYSQL_DATABASE,
         host: process.env.MYSQL_HOST,
         port: process.env.MYSQL_PORT,
+        // 连接池配置
+        waitForConnections: true,
+        connectionLimit: 10,
+        queueLimit: 0,
+        enableKeepAlive: true,
+        keepAliveInitialDelay: 10000,
       },
     },
   },
